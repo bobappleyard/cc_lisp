@@ -5,6 +5,11 @@ Syntax
 
 The syntax of CCL is based upon the idea of S-Expressions. An S-Expression is either an atom or a list.
 
+Source Code
+-----------
+
+The syntax of CCL is based on interpreting sequences of characters stored in bitstreams such as files or terminal input.
+
 The character encoding of source code is UTF-8.
 
 Atoms
@@ -25,5 +30,29 @@ Lists
 
 A list is a basic container. It consists of a whitespace-separated sequence of atoms or lists enclosed in parentheses.
 
+Semantics
+=========
 
+CCL programs are sequences of forms encoded in S-Expressions.
+
+Constant Values
+---------------
+
+Numbers and strings evaluate to themselves.
+
+`quote` forms:
+
+	(quote **datum**)
+
+evaluate to the syntactic form of `datum` (i.e. it witholds evaluation).
+
+Variables
+---------
+
+A variable gives a name to a value. Symbols are used to refer to variables.
+
+Variables are introduced using (binding forms)[lib.md#binding-forms]
+
+A variable exists within a scope. CCL is lexically scoped. That means that scopes are
+nested according to where they appear in the source code of a program.
 
