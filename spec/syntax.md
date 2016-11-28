@@ -1,8 +1,3 @@
-CCL is a simple Lisp similar to Scheme. What follows is a description of the syntax and semantics of CCL.
-
-Syntax
-======
-
 The syntax of CCL is based upon the idea of S-Expressions. An S-Expression is either an atom or a list.
 
 Source Code
@@ -19,7 +14,8 @@ Atoms are what you would consider to be basic data types. An atom is either a nu
 
 * A number is either an integer or a real.
 	- An integer is a sequence of digits.
-	- A real is two sequences of digits separated by a decimal point.
+	- A real number is two sequences of digits separated by a decimal point.
+	- A number prefixed with a dash is negative. Otherwise it is positive.
 * A string is a sequence of characters surrounded by double quotes.
 	- Characters preceded by a backslash are escaped characters.
 * A symbol is a sequence of characters that are not quotes, double quotes, parentheses or whitespace and
@@ -30,29 +26,19 @@ Lists
 
 A list is a basic container. It consists of a whitespace-separated sequence of atoms or lists enclosed in parentheses.
 
-Semantics
-=========
+Forms
+-----
 
-CCL programs are sequences of forms encoded in S-Expressions.
+A list with a symbol as its first item is known as a form. 
 
-Constant Values
----------------
+* Most valid forms are procedure calls.
+* A subset of forms are syntactic forms.
 
-Numbers and strings evaluate to themselves.
+Core Forms
+----------
 
-`quote` forms:
+It is possible to derive the rest of the language
 
-	(quote **datum**)
-
-evaluate to the syntactic form of `datum` (i.e. it witholds evaluation).
-
-Variables
----------
-
-A variable gives a name to a value. Symbols are used to refer to variables.
-
-Variables are introduced using (binding forms)[lib.md#binding-forms]
-
-A variable exists within a scope. CCL is lexically scoped. That means that scopes are
-nested according to where they appear in the source code of a program.
-
+	<core form> = (if <cond> <then> <else>?)
+	            | (lambda (<var>...) <decl>...)
+	            | (define <var> <expr>)
