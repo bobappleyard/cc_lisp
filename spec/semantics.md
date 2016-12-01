@@ -95,4 +95,21 @@ Other mechanisms for conditional evaluation are provided by
 Procedure Calls
 ---------------
 
+A list usually corresponds to a procedure call. The first item of the list is an
+expression that evaluates to a procedure and the rest of the list are the 
+arguments:
+
+    (*proc* *arg* ...)
+
+To evaluate a procedure call:
+
+1. Evaluate *proc*. If this is not a procedure then an error is signalled.
+2. Evaluate each *arg*.
+3. Pass control to *proc*.
+4. The expression evaluates to whatever calling *proc* evaluates to.
+
+If the procedure call occurs in *tail position* then it is safe to discard the
+current scope. This mechanism is called *tail recursion* and is how iterative
+processes are defined in CCL.
+
 

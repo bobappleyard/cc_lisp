@@ -1,6 +1,8 @@
 The syntax of CCL is based upon the idea of S-Expressions. An S-Expression is 
 either an atom or a list.
 
+The process of turning source code into S-Expressions is known as *parsing*.
+
 Source Code
 -----------
 
@@ -56,4 +58,29 @@ The rest of this section discusses derived syntax.
 Derived Syntax
 --------------
 
+Using `define-syntax` it is possible to extend the syntax of CCL.
 
+    (define-syntax *name* *expander*)
+
+Registers *expander* (a procedure) to be used to process forms that begin with 
+*name* (a symbol). The expander should be a procedure that takes a single 
+argument, the expression to be expanded, and should return a single value, the
+result of that expansion.
+
+CCL uses *hygeinic macros*. This means that by default variables introduced by
+expanders do not shadow variables introduced by expressions that include derived
+forms implemented by those expanders.
+
+As an example, `let`, a binding form, may be implemented using `define-syntax`
+like so:
+
+    (define-syntax let
+      (lambda (expr)
+        (define vars (cadr expr))
+        (define body (caddr expr))
+        (cons (cons 'lambda (cons (map car vars) body))
+              (map cadr vars))))
+          
+          
+          
+          
